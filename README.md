@@ -1,6 +1,6 @@
 # logo_bienvenida_OPENCODE
 
-Gato en verde Matrix para la pantalla de bienvenida de **OpenCode**. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art, renderizado en `#00FF00`, o por cualquier logo personalizado en texto plano que desees colocar.
+Gato en ASCII art para la pantalla de bienvenida de **OpenCode**, con selección de color. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art renderizado en el color que elijas (verde, amarillo, magenta o rojo), o por cualquier logo personalizado en texto plano que desees colocar.
 
 Cualquier desarrollador, usuario o asistente de IA puede leer esta guía para entender el funcionamiento e instalarlo en minutos.
 
@@ -84,11 +84,26 @@ Cerrá la terminal o salí de OpenCode y volvé a iniciarlo.
 
 ---
 
-## Personalización con Logo Personalizado
+## Personalización
+
+### 🎨 Selección de Color
+
+El instalador te permite elegir entre **4 colores** para tu logo, ya sea que uses el gato por defecto o tu propio arte personalizado:
+
+| # | Color   | Hex       | Preview |
+|---|---------|-----------|---------|
+| 1 | Verde   | `#00FF00` | 🟢 Matrix (por defecto) |
+| 2 | Amarillo| `#FFFF00` | 🟡 |
+| 3 | Magenta | `#FF00FF` | 🟣 |
+| 4 | Rojo    | `#FF0000` | 🔴 |
+
+El color elegido se guarda en `gentle-logo-color.json` dentro de la carpeta de plugins y el plugin lo aplica automáticamente.
+
+### 🐱 Logo por Defecto vs. Personalizado
 
 El instalador te guía paso a paso para elegir entre:
 
-- **🐱 Gato verde Matrix** (por defecto)
+- **🐱 Gato** (el arte ASCII incluido, en el color que elijas)
 - **🎨 Tu propio arte ASCII** en un archivo `.txt`
 
 ### ¿Cómo crear tu arte ASCII?
@@ -118,16 +133,28 @@ Si respondés **N:**
 1. Confirma que querés el gato por defecto
 2. Si decís "no" a la confirmación, **vuelve** a preguntarte la ruta de un archivo
 
+Luego de definir el logo, el instalador te preguntará:
+
+```
+Elegí un color (1-4) [default: 1]:
+1) Verde Matrix   (#00FF00)
+2) Amarillo       (#FFFF00)
+3) Magenta        (#FF00FF)
+4) Rojo           (#FF0000)
+```
+
+El color se aplica tanto al gato por defecto como a tu arte personalizado.
+
 > [!NOTE]
-> **Fallback automático:** Si no hay ningún `.txt` en la carpeta de plugins, el plugin muestra el gato verde Matrix. Si retirás tu archivo personalizado, el fallback se activa solo.
+> **Fallback automático:** Si no hay ningún `.txt` en la carpeta de plugins, el plugin muestra el gato. Si retirás tu archivo personalizado, el fallback se activa solo. El color elegido se mantiene aunque cambies el logo.
 
 ---
 
 ## Comportamiento del Logo en la Terminal (Responsivo)
 
 El plugin se redibuja en tiempo real adaptándose al tamaño de la terminal:
-1. **Ventana Estándar / Chica (ej. al abrir por primera vez):** Muestra únicamente el texto compacto `✦ [nombre_de_tu_archivo] ✦`.
-2. **Ventana Maximizada:** Cuando maximizás la terminal o la estirás a un tamaño suficiente, el plugin detecta el espacio y dibuja automáticamente el arte ASCII en verde Matrix completo.
+1. **Ventana Estándar / Chica (ej. al abrir por primera vez):** Muestra únicamente el texto compacto `✦ [nombre_de_tu_archivo] ✦` en el color seleccionado.
+2. **Ventana Maximizada:** Cuando maximizás la terminal o la estirás a un tamaño suficiente, el plugin detecta el espacio y dibuja automáticamente el arte ASCII completo en el color elegido.
 
 ---
 
@@ -135,14 +162,17 @@ El plugin se redibuja en tiempo real adaptándose al tamaño de la terminal:
 
 ```
 logo_bienvenida_OPENCODE/
-├── gentle-logo.tsx        # Código fuente del plugin TUI
-├── instalar.ps1           # Instalador automático para Windows
-├── instalar.sh            # Instalador automático para macOS/Linux
-└── README.md              # Esta guía detallada
+├── gentle-logo.tsx              # Código fuente del plugin TUI
+├── gentle-logo-color.json       # Configuración de color (se genera en la instalación)
+├── instalar.ps1                 # Instalador automático para Windows
+├── instalar.sh                  # Instalador automático para macOS/Linux
+└── README.md                    # Esta guía detallada
 ```
+
+> **Nota:** `gentle-logo-color.json` se crea automáticamente al ejecutar el instalador. Si no existe, el plugin usa verde (`#00FF00`) por defecto.
 
 ---
 
 ## Créditos
 
-Hecho con ♥ para la bienvenida de OpenCode. Verde Matrix porque tu consola merece estilo.
+Hecho con ♥ para la bienvenida de OpenCode. Elegí tu color — verde, amarillo, magenta o rojo — porque tu consola merece estilo propio.

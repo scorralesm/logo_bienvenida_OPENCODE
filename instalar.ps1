@@ -16,7 +16,8 @@ Write-Host "¿Qué va a hacer este instalador?"
 Write-Host "  1. Creará la carpeta de plugins en tu perfil de usuario si no existe."
 Write-Host "  2. Copiará el archivo del plugin 'gentle-logo.tsx'."
 Write-Host "  3. Si tenés un archivo .txt con tu logo listo en esta carpeta, lo copiará."
-Write-Host "  4. Registrará el plugin en tu configuración de 'tui.json' para dejarlo activo."
+Write-Host "  4. Guardará tu selección de color (verde, amarillo, magenta o rojo) en la configuración."
+Write-Host "  5. Registrará el plugin en tu configuración de 'tui.json' para dejarlo activo."
 Write-Host ""
 
 $confirm = Read-Host "¿Querés continuar con la instalación? (S/N)"
@@ -97,6 +98,28 @@ if ($hasLogo -match '^[sS]$') {
     }
 }
 
+# ── SELECCIÓN DE COLOR ──────────────────────────────────────────
+Write-Host ""
+Write-Host "===== SELECCIÓN DE COLOR =====" -ForegroundColor Yellow
+Write-Host "Elegí el color para tu logo (tanto el gato default como tu arte personalizado):"
+Write-Host ""
+Write-Host "  1) Verde Matrix   (#00FF00) — por defecto" -ForegroundColor Green
+Write-Host "  2) Amarillo        (#FFFF00)" -ForegroundColor Yellow
+Write-Host "  3) Magenta         (#FF00FF)" -ForegroundColor Magenta
+Write-Host "  4) Rojo            (#FF0000)" -ForegroundColor Red
+Write-Host ""
+$colorChoice = Read-Host "Elegí un color (1-4) [default: 1]"
+
+$selectedColor = "green"
+switch ($colorChoice) {
+  "2" { $selectedColor = "yellow" }
+  "3" { $selectedColor = "magenta" }
+  "4" { $selectedColor = "red" }
+  default { $selectedColor = "green" }
+}
+
+Write-Host "  [✓] Color seleccionado: $selectedColor" -ForegroundColor Cyan
+
 Write-Host ""
 Write-Host "===== INICIANDO INSTALACIÓN =====" -ForegroundColor Yellow
 
@@ -153,7 +176,13 @@ if ($customLogoPath) {
     }
 }
 
-# 4. Configure tui.json
+# 4. Guardar configuración de color
+$colorConfigPath = Join-Path $pluginDir "gentle-logo-color.json"
+$colorConfig = @{ color = $selectedColor } | ConvertTo-Json -Compress
+Set-Content -Path $colorConfigPath -Value $colorConfig -Encoding utf8 -NoNewline
+Write-Host "  [✓] Color config guardado: $selectedColor" -ForegroundColor Green
+
+# 5. Configure tui.json (ahora paso 5)
 Write-Host "[INFO] Configurando 'tui.json'..." -ForegroundColor Yellow
 $tuiJsonPath = Join-Path $env:USERPROFILE ".config\opencode\tui.json"
 $tuiObj = @{

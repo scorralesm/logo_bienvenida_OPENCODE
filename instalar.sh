@@ -23,7 +23,8 @@ echo "¿Qué va a hacer este instalador?"
 echo "  1. Creará la carpeta de plugins en tu perfil de usuario si no existe."
 echo "  2. Copiará el archivo del plugin 'gentle-logo.tsx'."
 echo "  3. Si tenés un archivo .txt con tu logo listo en esta carpeta, lo copiará."
-echo "  4. Registrará el plugin en tu configuración de 'tui.json' para dejarlo activo."
+echo "  4. Guardará tu selección de color (verde, amarillo, magenta o rojo) en la configuración."
+echo "  5. Registrará el plugin en tu configuración de 'tui.json' para dejarlo activo."
 echo ""
 
 read -p "¿Querés continuar con la instalación? (S/N): " confirm
@@ -122,6 +123,28 @@ else
     fi
 fi
 
+# ── SELECCIÓN DE COLOR ──────────────────────────────────────────
+echo ""
+echo -e "${YELLOW}===== SELECCIÓN DE COLOR =====${NC}"
+echo "Elegí el color para tu logo (tanto el gato default como tu arte personalizado):"
+echo ""
+echo -e "  1) ${GREEN}Verde Matrix   (#00FF00)${NC} — por defecto"
+echo -e "  2) ${YELLOW}Amarillo        (#FFFF00)${NC}"
+echo -e "  3) Magenta         (#FF00FF)"
+echo -e "  4) ${RED}Rojo            (#FF0000)${NC}"
+echo ""
+read -p "Elegí un color (1-4) [default: 1]: " colorChoice
+
+selectedColor="green"
+case "$colorChoice" in
+  2) selectedColor="yellow" ;;
+  3) selectedColor="magenta" ;;
+  4) selectedColor="red" ;;
+  *) selectedColor="green" ;;
+esac
+
+echo -e "${CYAN}  [✓] Color seleccionado: $selectedColor${NC}"
+
 echo ""
 echo -e "${YELLOW}===== INICIANDO INSTALACIÓN =====${NC}"
 
@@ -180,7 +203,12 @@ else
     fi
 fi
 
-# 4. Configure tui.json
+# 4. Guardar configuración de color
+colorConfigPath="$PLUGIN_DIR/gentle-logo-color.json"
+echo "{\"color\":\"$selectedColor\"}" > "$colorConfigPath"
+echo -e "${GREEN}  [✓] Color config guardado: $selectedColor${NC}"
+
+# 5. Configure tui.json
 echo -e "${YELLOW}[INFO] Configurando 'tui.json'...${NC}"
 node -e '
 const fs = require("fs");
