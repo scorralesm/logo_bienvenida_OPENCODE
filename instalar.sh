@@ -50,6 +50,17 @@ if [[ "$hasLogo" =~ ^[sS]$ ]]; then
     if [ -f "$logoInput" ]; then
         customLogoPath="$logoInput"
         echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
+        # Validar dimensiones del arte ASCII
+        artLineCount=$(wc -l < "$customLogoPath")
+        artMaxWidth=$(awk '{ if (length > max) max = length } END { print max }' "$customLogoPath")
+        if [ "$artLineCount" -gt 50 ] || [ "$artMaxWidth" -gt 80 ]; then
+            echo -e "${YELLOW}  [ADVERTENCIA] El archivo mide $artLineCount líneas x $artMaxWidth caracteres de ancho máximo.${NC}"
+            echo -e "${YELLOW}  [ADVERTENCIA] Se recomienda máximo 50 líneas y 80 columnas para verse bien en terminal.${NC}"
+            echo -e "${YELLOW}  [ADVERTENCIA] Si es muy grande, solo se mostrará la versión compacta: '✦ nombre ✦'${NC}"
+            echo -e "${YELLOW}  [ADVERTENCIA] Podés generar arte optimizado en: https://www.asciiart.eu/image-to-ascii${NC}"
+        else
+            echo -e "${GREEN}  [INFO] Dimensiones: $artLineCount líneas x $artMaxWidth columnas — ideal para la terminal.${NC}"
+        fi
     else
         echo -e "${RED}  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación.${NC}"
         echo ""
