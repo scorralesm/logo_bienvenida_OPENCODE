@@ -47,7 +47,11 @@ if [[ "$hasLogo" =~ ^[sS]$ ]]; then
     logoInput="${logoInput#\"}"
     logoInput="${logoInput%\'}"
     logoInput="${logoInput#\'}"
-    if [ -f "$logoInput" ]; then
+    # Si escribe "n" o "no" → se arrepintió, usar gato por defecto
+    if [[ "$logoInput" =~ ^[nN][oO]?$ ]]; then
+        customLogoPath=""
+        echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+    elif [ -f "$logoInput" ]; then
         customLogoPath="$logoInput"
         echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
         # Validar dimensiones del arte ASCII
@@ -85,7 +89,11 @@ else
         logoInput="${logoInput#\"}"
         logoInput="${logoInput%\'}"
         logoInput="${logoInput#\'}"
-        if [ -f "$logoInput" ]; then
+        # Si escribe "n" o "no" → se arrepintió otra vez, usar gato por defecto
+        if [[ "$logoInput" =~ ^[nN][oO]?$ ]]; then
+            customLogoPath=""
+            echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+        elif [ -f "$logoInput" ]; then
             customLogoPath="$logoInput"
             echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
             # Validar dimensiones

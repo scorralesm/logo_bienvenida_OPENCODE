@@ -35,7 +35,11 @@ $customLogoPath = $null
 
 if ($hasLogo -match '^[sS]$') {
     $logoInput = (Read-Host "  Ingresá la ruta completa de tu archivo .txt").Trim('"', "'")
-    if (Test-Path $logoInput) {
+    # Si escribe "n" o "no" → se arrepintió, usar gato por defecto
+    if ($logoInput -match '^[nN][oO]?$') {
+        $customLogoPath = $null
+        Write-Host "  [INFO] Usando gato verde Matrix por defecto." -ForegroundColor Cyan
+    } elseif (Test-Path $logoInput) {
         $customLogoPath = $logoInput
         Write-Host "  [✓] Archivo encontrado: '$customLogoPath'" -ForegroundColor Green
         # Validar dimensiones del arte ASCII
