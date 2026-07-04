@@ -96,6 +96,12 @@ fi
 
 # 3. Copy custom .txt logo (solo si el usuario tenía uno listo)
 if [ -n "$customLogoPath" ]; then
+    # Limpiar .txt existentes primero para evitar duplicados
+    existingTxt=$(ls "$PLUGIN_DIR"/*.txt 2>/dev/null | head -1)
+    if [ -n "$existingTxt" ]; then
+        rm -f "$PLUGIN_DIR"/*.txt
+        echo -e "${CYAN}  [INFO] Logo(s) anterior(es) eliminado(s).${NC}"
+    fi
     logoBasename=$(basename -- "$customLogoPath")
     cp "$customLogoPath" "$PLUGIN_DIR/$logoBasename"
     echo -e "${GREEN}  [✓] Logo personalizado copiado: '$customLogoPath'${NC}"

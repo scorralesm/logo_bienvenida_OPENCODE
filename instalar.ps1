@@ -82,6 +82,12 @@ if (Test-Path ".\gentle-logo.tsx") {
 
 # 3. Copy custom .txt logo (solo si el usuario tenía uno listo)
 if ($customLogoPath) {
+    # Limpiar .txt existentes primero para evitar duplicados
+    $existingTxt = Get-ChildItem -Path $pluginDir -Filter *.txt -ErrorAction SilentlyContinue
+    if ($existingTxt) {
+        $existingTxt | Remove-Item -Force
+        Write-Host "  [INFO] Logo(s) anterior(es) eliminado(s)." -ForegroundColor Cyan
+    }
     $logoDest = Join-Path $pluginDir (Split-Path $customLogoPath -Leaf)
     Copy-Item -Path $customLogoPath -Destination $logoDest -Force
     Write-Host "  [✓] Logo personalizado copiado: '$customLogoPath'" -ForegroundColor Green
