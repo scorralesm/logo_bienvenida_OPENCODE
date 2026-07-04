@@ -42,28 +42,41 @@ else
 fi
 
 # 2. Copy gentle-logo.tsx
-CopyPath="./gentle-logo.tsx"
 DestPath="$PLUGIN_DIR/gentle-logo.tsx"
-cp "$CopyPath" "$DestPath"
-echo -e "${GREEN}[✓] Plugin 'gentle-logo.tsx' copiado con éxito.${NC}"
+gentleLogoUrl="https://raw.githubusercontent.com/scorralesm/logo_bienvenida_OPENCODE/master/gentle-logo.tsx"
+
+if [ -f "./gentle-logo.tsx" ]; then
+    cp "./gentle-logo.tsx" "$DestPath"
+    echo -e "${GREEN}[✓] Plugin 'gentle-logo.tsx' copiado desde la carpeta local.${NC}"
+else
+    echo -e "${YELLOW}[INFO] gentle-logo.tsx no encontrado localmente. Descargándolo desde GitHub...${NC}"
+    if command -v curl >/dev/null 2>&1; then
+        curl -fsSL "$gentleLogoUrl" -o "$DestPath"
+    elif command -v wget >/dev/null 2>&1; then
+        wget -q "$gentleLogoUrl" -O "$DestPath"
+    else
+        echo -e "${RED}[ERROR] No se pudo descargar gentle-logo.tsx de GitHub porque no se encontró curl ni wget.${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}[✓] Plugin 'gentle-logo.tsx' descargado e instalado con éxito.${NC}"
+fi
 
 # 3. Copy custom .txt logo if requested
-read -p "¿Tenés un archivo de texto .txt con tu diseño ASCII en esta carpeta? (S/N): " hasLogo
+read -p "¿Tenés un archivo de texto .txt con tu diseño ASCII listo para usar? (S/N): " hasLogo
 if [[ "$hasLogo" =~ ^[sS]$ ]]; then
-    read -p "  Ingrese el nombre exacto de su archivo (ej: mi-gato.txt): " logoName
+    read -p "  Ingrese la ruta o nombre exacto de su archivo (ej: mi-gato.txt): " logoName
     if [ -f "$logoName" ]; then
         # Clean any other .txt files in destination folder to prevent conflicts
         rm -f "$PLUGIN_DIR"/*.txt
         
-        cp "$logoName" "$PLUGIN_DIR/$logoName"
-        echo -e "${GREEN}  [✓] '$logoName' copiado correctamente.${NC}"
+        logoBasename=$(basename -- "$logoName")
+        cp "$logoName" "$PLUGIN_DIR/$logoBasename"
+        echo -e "${GREEN}  [✓] '$logoBasename' copiado correctamente.${NC}"
         
-        # Get name without extension
-        filename=$(basename -- "$logoName")
-        cleanName="${filename%.*}"
+        cleanName="${logoBasename%.*}"
         echo -e "${CYAN}  [INFO] La versión compacta de tu logo mostrará dinámicamente: '✦ $cleanName ✦'.${NC}"
     else
-        echo -e "${RED}  [ERROR] El archivo '$logoName' no existe en esta carpeta. Se omitirá la copia del logo personalizado.${NC}"
+        echo -e "${RED}  [ERROR] El archivo '$logoName' no existe. Se omitirá la copia del logo personalizado.${NC}"
     fi
 else
     echo -e "${CYAN}  [INFO] No hay problema. Se usará el gato verde Matrix por defecto.${NC}"

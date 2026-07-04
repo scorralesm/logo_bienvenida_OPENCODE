@@ -15,23 +15,39 @@ Cualquier desarrollador, usuario o asistente de IA puede leer esta guía para en
 
 ## Instalación Automática (Recomendada)
 
-El repositorio incluye instaladores interactivos que configuran el plugin y registran la ruta en tu archivo de configuración de OpenCode automáticamente.
+El plugin se puede instalar de forma instantánea sin clonar el repositorio, o bien ejecutando el script localmente si ya lo tenés en tu máquina.
 
-### Windows (PowerShell)
-1. Abrí PowerShell en la carpeta del proyecto.
-2. Ejecutá el script de instalación:
-   ```powershell
-   .\instalar.ps1
-   ```
-   *(Si encontrás un error de política de ejecución de scripts, podés correrlo con: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\instalar.ps1`)*
+### Opción A: Instalación Instantánea (Sin clonar el repositorio)
 
-### macOS / Linux (Bash)
-1. Abrí la terminal en la carpeta del proyecto.
-2. Dale permisos de ejecución y correlo:
-   ```bash
-   chmod +x instalar.sh
-   ./instalar.sh
-   ```
+Simplemente abrí la terminal de tu sistema y ejecutá el comando correspondiente:
+
+#### Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/scorralesm/logo_bienvenida_OPENCODE/master/instalar.ps1 | iex
+```
+
+#### macOS / Linux (Bash)
+```bash
+curl -fsSL https://raw.githubusercontent.com/scorralesm/logo_bienvenida_OPENCODE/master/instalar.sh | bash
+```
+
+---
+
+### Opción B: Instalación Local (Si clonaste el repositorio)
+
+#### Windows (PowerShell)
+Ejecutá el instalador desde la carpeta del proyecto:
+```powershell
+.\instalar.ps1
+```
+*(Si encontrás un error de políticas de scripts, podés usar: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\instalar.ps1`)*
+
+#### macOS / Linux (Bash)
+Dale permisos de ejecución y corré el script desde la carpeta del proyecto:
+```bash
+chmod +x instalar.sh
+./instalar.sh
+```
 
 ---
 
