@@ -36,14 +36,28 @@ if (-not (Test-Path $pluginDir)) {
 
 # 2. Copy gentle-logo.tsx
 $pluginDest = Join-Path $pluginDir "gentle-logo.tsx"
-Copy-Item -Path ".\gentle-logo.tsx" -Destination $pluginDest -Force
-Write-Host "[✓] Plugin 'gentle-logo.tsx' copiado con éxito." -ForegroundColor Green
+$gentleLogoUrl = "https://raw.githubusercontent.com/scorralesm/logo_bienvenida_OPENCODE/master/gentle-logo.tsx"
+
+if (Test-Path ".\gentle-logo.tsx") {
+    Copy-Item -Path ".\gentle-logo.tsx" -Destination $pluginDest -Force
+    Write-Host "[✓] Plugin 'gentle-logo.tsx' copiado desde la carpeta local." -ForegroundColor Green
+} else {
+    Write-Host "[INFO] gentle-logo.tsx no encontrado localmente. Descargándolo desde GitHub..." -ForegroundColor Yellow
+    try {
+        Invoke-WebRequest -Uri $gentleLogoUrl -OutFile $pluginDest -UseBasicParsing
+        Write-Host "[✓] Plugin 'gentle-logo.tsx' descargado e instalado con éxito." -ForegroundColor Green
+    } catch {
+        Write-Host "[ERROR] No se pudo descargar gentle-logo.tsx de GitHub. Verificá tu conexión a internet." -ForegroundColor Red
+        Exit
+    }
+}
+
 # 3. Copy custom .txt logo if requested
-$hasLogo = Read-Host "¿Tenés un archivo de texto .txt con tu diseño ASCII en esta carpeta? (S/N)"
+$hasLogo = Read-Host "¿Tenés un archivo de texto .txt con tu diseño ASCII listo para usar? (S/N)"
 if ($hasLogo -match '^[sS]$') {
-    $logoName = Read-Host "  Ingrese el nombre exacto de su archivo (ej: mi-gato.txt)"
+    $logoName = Read-Host "  Ingrese la ruta o nombre exacto de su archivo (ej: mi-gato.txt)"
     if (Test-Path $logoName) {
-        $logoDest = Join-Path $pluginDir $logoName
+        $logoDest = Join-Path $pluginDir (Split-Path $logoName -Leaf)
         
         # Clean any other .txt files in the destination folder to prevent conflicts
         Get-ChildItem -Path $pluginDir -Filter *.txt | Remove-Item -Force
@@ -53,7 +67,7 @@ if ($hasLogo -match '^[sS]$') {
         $cleanName = [System.IO.Path]::GetFileNameWithoutExtension($logoName)
         Write-Host "  [INFO] La versión compacta de tu logo mostrará dinámicamente: '✦ $cleanName ✦'." -ForegroundColor Cyan
     } else {
-        Write-Host "  [ERROR] El archivo '$logoName' no existe en esta carpeta. Se omitirá la copia del logo personalizado." -ForegroundColor Red
+        Write-Host "  [ERROR] El archivo '$logoName' no existe. Se omitirá la copia del logo personalizado." -ForegroundColor Red
     }
 } else {
     Write-Host "  [INFO] No hay problema. Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
