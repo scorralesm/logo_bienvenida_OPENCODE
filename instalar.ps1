@@ -50,6 +50,12 @@ if ($hasLogo -match '^[sS]$') {
         } else {
             Write-Host "  [INFO] Dimensiones: $artLineCount líneas x $artMaxWidth columnas — ideal para la terminal." -ForegroundColor Green
         }
+        # Confirmación: chance de arrepentirse antes de seguir
+        $confirmLogo = Read-Host "  ¿Confirmás usar este archivo o preferís el gato por defecto? (S = este archivo / N = gato por defecto)"
+        if ($confirmLogo -notmatch '^[sS]$') {
+            $customLogoPath = $null
+            Write-Host "  [INFO] Usando gato verde Matrix por defecto." -ForegroundColor Cyan
+        }
     } else {
         Write-Host "  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación." -ForegroundColor Red
         Write-Host ""
@@ -57,7 +63,34 @@ if ($hasLogo -match '^[sS]$') {
         Exit
     }
 } else {
+    # Si dijo N, darle chance de devolverse
     Write-Host "  [INFO] Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
+    $confirmDefault = Read-Host "  ¿Estás seguro? (S = gato por defecto / N = volver y elegir un archivo)"
+    if ($confirmDefault -match '^[nN]$') {
+        $hasLogo = "S"
+        $logoInput = (Read-Host "  Ingresá la ruta completa de tu archivo .txt").Trim('"', "'")
+        if (Test-Path $logoInput) {
+            $customLogoPath = $logoInput
+            Write-Host "  [✓] Archivo encontrado: '$customLogoPath'" -ForegroundColor Green
+            # Validar dimensiones del arte ASCII
+            $artLines = Get-Content -Path $customLogoPath
+            $artLineCount = $artLines.Count
+            $artMaxWidth = ($artLines | ForEach-Object { $_.Length } | Measure-Object -Maximum).Maximum
+            if ($artLineCount -gt 50 -or $artMaxWidth -gt 80) {
+                Write-Host "  [ADVERTENCIA] El archivo mide $artLineCount líneas x $artMaxWidth caracteres de ancho máximo." -ForegroundColor Yellow
+                Write-Host "  [ADVERTENCIA] Se recomienda máximo 50 líneas y 80 columnas para verse bien en terminal." -ForegroundColor Yellow
+                Write-Host "  [ADVERTENCIA] Si es muy grande, solo se mostrará la versión compacta: '✦ nombre ✦'" -ForegroundColor Yellow
+                Write-Host "  [ADVERTENCIA] Podés generar arte optimizado en: https://www.asciiart.eu/image-to-ascii" -ForegroundColor Yellow
+            } else {
+                Write-Host "  [INFO] Dimensiones: $artLineCount líneas x $artMaxWidth columnas — ideal para la terminal." -ForegroundColor Green
+            }
+        } else {
+            Write-Host "  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación." -ForegroundColor Red
+            Write-Host ""
+            Read-Host "Presione Enter para salir..."
+            Exit
+        }
+    }
 }
 
 Write-Host ""

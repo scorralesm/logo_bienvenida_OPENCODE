@@ -61,6 +61,12 @@ if [[ "$hasLogo" =~ ^[sS]$ ]]; then
         else
             echo -e "${GREEN}  [INFO] Dimensiones: $artLineCount líneas x $artMaxWidth columnas — ideal para la terminal.${NC}"
         fi
+        # Confirmación: chance de arrepentirse antes de seguir
+        read -p "  ¿Confirmás usar este archivo o preferís el gato por defecto? (S = este archivo / N = gato por defecto): " confirmLogo
+        if [[ ! "$confirmLogo" =~ ^[sS]$ ]]; then
+            customLogoPath=""
+            echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+        fi
     else
         echo -e "${RED}  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación.${NC}"
         echo ""
@@ -68,7 +74,44 @@ if [[ "$hasLogo" =~ ^[sS]$ ]]; then
         exit 1
     fi
 else
-    echo -e "${CYAN}  [INFO] Se usará el gato verde Matrix por defecto.${NC}"
+    # Si dijo N, darle chance de devolverse
+    echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+    read -p "  ¿Estás seguro? (S = gato por defecto / N = volver y elegir un archivo): " confirmDefault
+    if [[ "$confirmDefault" =~ ^[nN]$ ]]; then
+        hasLogo="S"
+        read -p "  Ingresá la ruta completa de tu archivo .txt: " logoInput
+        # Strip surrounding quotes
+        logoInput="${logoInput%\"}"
+        logoInput="${logoInput#\"}"
+        logoInput="${logoInput%\'}"
+        logoInput="${logoInput#\'}"
+        if [ -f "$logoInput" ]; then
+            customLogoPath="$logoInput"
+            echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
+            # Validar dimensiones
+            artLineCount=$(wc -l < "$customLogoPath")
+            artMaxWidth=$(awk '{ if (length > max) max = length } END { print max }' "$customLogoPath")
+            if [ "$artLineCount" -gt 50 ] || [ "$artMaxWidth" -gt 80 ]; then
+                echo -e "${YELLOW}  [ADVERTENCIA] El archivo mide $artLineCount líneas x $artMaxWidth caracteres de ancho máximo.${NC}"
+                echo -e "${YELLOW}  [ADVERTENCIA] Se recomienda máximo 50 líneas y 80 columnas para verse bien en terminal.${NC}"
+                echo -e "${YELLOW}  [ADVERTENCIA] Si es muy grande, solo se mostrará la versión compacta: '✦ nombre ✦'${NC}"
+                echo -e "${YELLOW}  [ADVERTENCIA] Podés generar arte optimizado en: https://www.asciiart.eu/image-to-ascii${NC}"
+            else
+                echo -e "${GREEN}  [INFO] Dimensiones: $artLineCount líneas x $artMaxWidth columnas — ideal para la terminal.${NC}"
+            fi
+            # Confirmación
+            read -p "  ¿Confirmás usar este archivo o preferís el gato por defecto? (S = este archivo / N = gato por defecto): " confirmLogo
+            if [[ ! "$confirmLogo" =~ ^[sS]$ ]]; then
+                customLogoPath=""
+                echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+            fi
+        else
+            echo -e "${RED}  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación.${NC}"
+            echo ""
+            read -p "Presione Enter para salir..."
+            exit 1
+        fi
+    fi
 fi
 
 echo ""
