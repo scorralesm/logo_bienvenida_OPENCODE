@@ -84,24 +84,42 @@ Cerrá la terminal o salí de OpenCode y volvé a iniciarlo.
 
 ---
 
-## Personalización y Logos Dinámicos (Opcional)
+## Personalización con Logo Personalizado
 
-Este plugin es **interactivo y responsivo al nombre de tu archivo**. Podés cambiar el logo de bienvenida por cualquier diseño ASCII personalizado sin tocar una sola línea de código del plugin.
+El instalador te guía paso a paso para elegir entre:
 
-### ¿Cómo crear tu propio arte ASCII?
-Si no sabés cómo diseñar arte ASCII, podés usar herramientas en línea gratuitas que convierten texto o imágenes directamente:
-- **Para convertir imágenes a ASCII:** Subí tu imagen de referencia a [ASCII Art Generator](https://www.ascii-art-generator.org/) o [ASCII Generator](https://ascii-generator.site/).
-- **Para convertir texto en fuentes de bloques gigantes:** Usá [Patorjk's TAAG](https://patorjk.com/software/taag/) para generar palabras o frases estilizadas.
+- **🐱 Gato verde Matrix** (por defecto)
+- **🎨 Tu propio arte ASCII** en un archivo `.txt`
+
+### ¿Cómo crear tu arte ASCII?
+Usá generadores online que convierten imágenes a arte ASCII:
+- **[Image to ASCII](https://www.asciiart.eu/image-to-ascii)** — el que usaste para el genio. Recomienda ~50 líneas máx.
+- **[ASCII Art Generator](https://www.ascii-art-generator.org/)** — alternativa similar.
+- **[Patorjk's TAAG](https://patorjk.com/software/taag/)** — para texto estilizado en bloque.
+
+> [!TIP]
+> **Tamaño recomendado:** máximo **50 líneas** y **80 columnas**. El instalador te advierte si tu archivo excede estas dimensiones.
 
 ### ¿Cómo instalar tu diseño personalizado?
-1. Guardá tu arte ASCII en un archivo con extensión `.txt` (por ejemplo: `mi-logo.txt`, `gato-matrix.txt` o `logo-empresa.txt`).
-2. Copiá ese archivo a la carpeta de plugins (`~/.config/opencode/tui-plugins/`) junto al plugin `gentle-logo.tsx`.
-3. El plugin escaneará automáticamente la carpeta, detectará tu archivo de texto y hará lo siguiente:
-   - **Renderizado:** Dibujará tu arte ASCII en verde Matrix.
-   - **Título Compacto (Receptor Dinámico):** Si la ventana de la terminal está en tamaño estándar (chica), el plugin mostrará la versión compacta basada en el nombre del archivo. Por ejemplo, si tu archivo se llama `gato-matrix.txt`, la versión compacta mostrará exactamente `✦ gato-matrix ✦`.
+
+Corré el instalador y seguí el diálogo interactivo:
+
+```
+¿Tenés tu logo en arte ASCII listo en un archivo .txt? (S/N)
+```
+
+Si respondés **S:**
+1. Ingresá la **ruta completa** de tu archivo `.txt`
+2. El instalador valida que exista y mide sus dimensiones
+3. Te pregunta si **confirmás** o preferís el gato por defecto
+4. Si tecleás `n` o `no` cuando pide la ruta, vuelve al gato por defecto
+
+Si respondés **N:**
+1. Confirma que querés el gato por defecto
+2. Si decís "no" a la confirmación, **vuelve** a preguntarte la ruta de un archivo
 
 > [!NOTE]
-> **Fallback automático:** Si no colocás ningún archivo `.txt` en la carpeta, el plugin cargará por defecto el gato verde Matrix de bienvenida y la versión compacta mostrará `✦ Logo Bienvenida ✦`. Si retirás tu archivo personalizado, el fallback se activa solo sin fallar.
+> **Fallback automático:** Si no hay ningún `.txt` en la carpeta de plugins, el plugin muestra el gato verde Matrix. Si retirás tu archivo personalizado, el fallback se activa solo.
 
 ---
 
