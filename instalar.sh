@@ -136,3 +136,4 @@ echo -e "${GREEN}    Reiniciá OpenCode para empezar a ver los cambios.${NC}"
 echo -e "${GREEN}============================================================${NC}"
 echo ""
 read -p "Presione Enter para salir..."
+exit 0

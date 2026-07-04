@@ -133,3 +133,4 @@ Write-Host "    Reiniciá OpenCode para empezar a ver los cambios." -ForegroundC
 Write-Host "============================================================" -ForegroundColor Green
 Write-Host ""
 Read-Host "Presione Enter para salir..."
+Exit
