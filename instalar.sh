@@ -29,6 +29,8 @@ echo ""
 read -p "¿Querés continuar con la instalación? (S/N): " confirm
 if [[ ! "$confirm" =~ ^[sS]$ ]]; then
     echo -e "${RED}Instalación cancelada por el usuario.${NC}"
+    echo ""
+    read -p "Presione Enter para salir..."
     exit 0
 fi
 
@@ -45,6 +47,8 @@ if [[ "$hasLogo" =~ ^[sS]$ ]]; then
         echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
     else
         echo -e "${RED}  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación.${NC}"
+        echo ""
+        read -p "Presione Enter para salir..."
         exit 1
     fi
 else
@@ -78,6 +82,8 @@ else
         wget -q "$gentleLogoUrl" -O "$DestPath"
     else
         echo -e "${RED}[ERROR] No se pudo descargar gentle-logo.tsx de GitHub porque no se encontró curl ni wget.${NC}"
+        echo ""
+        read -p "Presione Enter para salir..."
         exit 1
     fi
     echo -e "${GREEN}[✓] Plugin 'gentle-logo.tsx' descargado e instalado con éxito.${NC}"
@@ -116,3 +122,5 @@ echo -e "${GREEN}============================================================${N
 echo -e "${GREEN}    ¡INSTALACIÓN COMPLETADA CON ÉXITO!${NC}"
 echo -e "${GREEN}    Reiniciá OpenCode para empezar a ver los cambios.${NC}"
 echo -e "${GREEN}============================================================${NC}"
+echo ""
+read -p "Presione Enter para salir..."

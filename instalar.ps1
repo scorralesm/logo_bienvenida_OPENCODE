@@ -22,6 +22,8 @@ Write-Host ""
 $confirm = Read-Host "¿Querés continuar con la instalación? (S/N)"
 if ($confirm -notmatch '^[sS]$') {
     Write-Host "Instalación cancelada por el usuario." -ForegroundColor Red
+    Write-Host ""
+    Read-Host "Presione Enter para salir..."
     Exit
 }
 
@@ -38,6 +40,8 @@ if ($hasLogo -match '^[sS]$') {
         Write-Host "  [✓] Archivo encontrado: '$customLogoPath'" -ForegroundColor Green
     } else {
         Write-Host "  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación." -ForegroundColor Red
+        Write-Host ""
+        Read-Host "Presione Enter para salir..."
         Exit
     }
 } else {
@@ -70,6 +74,8 @@ if (Test-Path ".\gentle-logo.tsx") {
         Write-Host "[✓] Plugin 'gentle-logo.tsx' descargado e instalado con éxito." -ForegroundColor Green
     } catch {
         Write-Host "[ERROR] No se pudo descargar gentle-logo.tsx de GitHub. Verificá tu conexión a internet." -ForegroundColor Red
+        Write-Host ""
+        Read-Host "Presione Enter para salir..."
         Exit
     }
 }
@@ -118,3 +124,5 @@ Write-Host "============================================================" -Foreg
 Write-Host "    ¡INSTALACIÓN COMPLETADA CON ÉXITO!" -ForegroundColor Green
 Write-Host "    Reiniciá OpenCode para empezar a ver los cambios." -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Green
+Write-Host ""
+Read-Host "Presione Enter para salir..."
