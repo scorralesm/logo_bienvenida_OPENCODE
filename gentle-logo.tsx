@@ -91,29 +91,10 @@ const Logo = () => {
   const lines = createMemo(() => {
     const term = dim()
     const art = customArt || catArt
-
-    // Header con el nombre
-    const compactHeader = [`✦ ${customLogoName} ✦`]
-    const headerLines = 2 // header + blank line
-
-    // Si la terminal es muy chica, solo el header
-    if (term.height < headerLines + 2 || term.width < 20) return compactHeader
-
-    // Máximo de líneas que podemos mostrar (reservando espacio para header)
-    const maxArtLines = term.height - headerLines - 2
-
-    // Máximo ancho disponible
-    const maxWidth = Math.max(term.width - 4, 20)
-
-    // Tomar el arte o recortarlo si no entra completo
-    let visibleArt = art.length <= maxArtLines ? art : art.slice(0, maxArtLines)
-
-    // Recortar líneas muy largas al ancho de la terminal
-    visibleArt = visibleArt.map(line =>
-      line.length > maxWidth ? line.slice(0, maxWidth) : line
-    )
-
-    return [...compactHeader, "", ...visibleArt]
+    const compactArt = [`✦ ${customLogoName} ✦`]
+    // Mostrar el arte completo solo si entra holgadamente
+    // Sino, mostrar el nombre compacto
+    return term.height >= art.length + 6 && term.width >= 64 ? art : compactArt
   })
 
   return (
