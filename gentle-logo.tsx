@@ -98,7 +98,9 @@ try {
   const colorConfigPath = path.join(globalConfigDir, "gentle-logo-color.json")
   if (fs.existsSync(colorConfigPath)) {
     const raw = fs.readFileSync(colorConfigPath, "utf8")
-    const config = JSON.parse(raw)
+    // Strip BOM (PowerShell 5.1 escribe UTF-8 con BOM, JSON.parse no lo tolera)
+    const clean = raw.replace(/^\uFEFF/, "")
+    const config = JSON.parse(clean)
     if (config.color && colorPalette[config.color]) {
       activeColor = colorPalette[config.color]
     }

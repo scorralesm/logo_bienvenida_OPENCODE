@@ -176,10 +176,10 @@ if ($customLogoPath) {
     }
 }
 
-# 4. Guardar configuración de color
+# 4. Guardar configuración de color (UTF-8 sin BOM para que JSON.parse no falle)
 $colorConfigPath = Join-Path $pluginDir "gentle-logo-color.json"
 $colorConfig = @{ color = $selectedColor } | ConvertTo-Json -Compress
-Set-Content -Path $colorConfigPath -Value $colorConfig -Encoding utf8 -NoNewline
+[System.IO.File]::WriteAllText($colorConfigPath, $colorConfig)
 Write-Host "  [✓] Color config guardado: $selectedColor" -ForegroundColor Green
 
 # 5. Configure tui.json (ahora paso 5)
