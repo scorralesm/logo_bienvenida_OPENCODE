@@ -16,57 +16,8 @@ const colorPalette: Record<string, string> = {
   red:     "#FF0000",
 }
 
-// Color activo (se sobreescribe desde gentle-logo-color.json)
+// Color activo (default green, se sobreescribe desde gentle-logo-color.json)
 let activeColor = colorPalette.green
-
-const colorConfigFileName = "gentle-logo-color.json"
-
-// Lee la configuración de color desde el archivo JSON
-const loadColorConfig = (): void => {
-  try {
-    const home = process.env.USERPROFILE || process.env.HOME || ""
-    const globalConfigDir = path.join(home, ".config", "opencode", "tui-plugins")
-    const globalConfigPath = path.join(globalConfigDir, colorConfigFileName)
-
-    let colorConfigPath = ""
-
-    // 1. Buscar en el directorio global de plugins
-    if (fs.existsSync(globalConfigPath)) {
-      colorConfigPath = globalConfigPath
-    }
-
-    // 2. Fallback: buscar junto al plugin
-    if (!colorConfigPath) {
-      try {
-        const localPath = path.join(__dirname, colorConfigFileName)
-        if (fs.existsSync(localPath)) {
-          colorConfigPath = localPath
-        }
-      } catch (err) {
-        try {
-          const { fileURLToPath } = require("url")
-          const metaUrl = eval("import.meta.url")
-          const localPath = path.join(path.dirname(fileURLToPath(metaUrl)), colorConfigFileName)
-          if (fs.existsSync(localPath)) {
-            colorConfigPath = localPath
-          }
-        } catch (e) {}
-      }
-    }
-
-    if (colorConfigPath) {
-      const raw = fs.readFileSync(colorConfigPath, "utf8")
-      const config = JSON.parse(raw)
-      if (config.color && colorPalette[config.color]) {
-        activeColor = colorPalette[config.color]
-      }
-    }
-  } catch (e) {
-    // Silencio → se queda el default (green)
-  }
-}
-
-loadColorConfig()
 
 const catArt = [
   "            .,.                             ..                  ",
@@ -141,6 +92,16 @@ try {
     customArt = content.split(/\r?\n/)
     // Extract dynamic file name without extension
     customLogoName = path.basename(logoPath, path.extname(logoPath))
+  }
+
+  // ── Leer configuración de color (mismo directorio) ─────────
+  const colorConfigPath = path.join(globalConfigDir, "gentle-logo-color.json")
+  if (fs.existsSync(colorConfigPath)) {
+    const raw = fs.readFileSync(colorConfigPath, "utf8")
+    const config = JSON.parse(raw)
+    if (config.color && colorPalette[config.color]) {
+      activeColor = colorPalette[config.color]
+    }
   }
 } catch (e) {
   // Fallback to default
