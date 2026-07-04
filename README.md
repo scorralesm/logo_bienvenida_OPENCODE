@@ -1,37 +1,59 @@
 # logo_bienvenida_OPENCODE
 
-Gato en verde Matrix para la pantalla de bienvenida de **OpenCode**. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art, renderizado en `#00FF00`.
+Gato en verde Matrix para la pantalla de bienvenida de **OpenCode**. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art, renderizado en `#00FF00`, o por cualquier logo personalizado en texto plano que desees colocar.
+
+Cualquier desarrollador, usuario o asistente de IA puede leer esta guía para entender el funcionamiento e instalarlo en minutos.
+
+---
 
 ## Requisitos
 
-- [OpenCode](https://opencode.ai) instalado
-- Terminal con al menos **70 caracteres de ancho** y **36 líneas de alto**
+- [OpenCode](https://opencode.ai) instalado.
+- Terminal capaz de renderizar colores ANSI.
 
-## Instalación (2 pasos)
+---
+
+## Instalación Automática (Recomendada)
+
+El repositorio incluye instaladores interactivos que configuran el plugin y registran la ruta en tu archivo de configuración de OpenCode automáticamente.
+
+### Windows (PowerShell)
+1. Abrí PowerShell en la carpeta del proyecto.
+2. Ejecutá el script de instalación:
+   ```powershell
+   .\instalar.ps1
+   ```
+   *(Si encontrás un error de política de ejecución de scripts, podés correrlo con: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\instalar.ps1`)*
+
+### macOS / Linux (Bash)
+1. Abrí la terminal en la carpeta del proyecto.
+2. Dale permisos de ejecución y correlo:
+   ```bash
+   chmod +x instalar.sh
+   ./instalar.sh
+   ```
+
+---
+
+## Instalación Manual
+
+Si preferís realizar la configuración a mano, seguí estos pasos:
 
 ### 1. Copiar el plugin
-
 Copiá `gentle-logo.tsx` a la carpeta de plugins de OpenCode:
-
-**Windows:**
-```powershell
-# Crear la carpeta si no existe
-New-Item -ItemType Directory -Path "$env:USERPROFILE\.config\opencode\tui-plugins" -Force
-
-# Copiar el plugin
-Copy-Item -Path ".\gentle-logo.tsx" -Destination "$env:USERPROFILE\.config\opencode\tui-plugins\gentle-logo.tsx"
-```
-
-**macOS / Linux:**
-```bash
-mkdir -p ~/.config/opencode/tui-plugins
-cp gentle-logo.tsx ~/.config/opencode/tui-plugins/gentle-logo.tsx
-```
+- **Windows:**
+  ```powershell
+  New-Item -ItemType Directory -Path "$env:USERPROFILE\.config\opencode\tui-plugins" -Force
+  Copy-Item -Path ".\gentle-logo.tsx" -Destination "$env:USERPROFILE\.config\opencode\tui-plugins\gentle-logo.tsx"
+  ```
+- **macOS / Linux:**
+  ```bash
+  mkdir -p ~/.config/opencode/tui-plugins
+  cp gentle-logo.tsx ~/.config/opencode/tui-plugins/gentle-logo.tsx
+  ```
 
 ### 2. Registrar el plugin en `tui.json`
-
-Editá `~/.config/opencode/tui.json` (crealo si no existe) y agregá:
-
+Editá tu archivo de configuración `tui.json` (ubicado en `~/.config/opencode/tui.json` o `%USERPROFILE%\.config\opencode\tui.json`) y registrá la ruta absoluta de `gentle-logo.tsx` en el array `"plugin"`:
 ```json
 {
   "$schema": "https://opencode.ai/tui.json",
@@ -41,60 +63,52 @@ Editá `~/.config/opencode/tui.json` (crealo si no existe) y agregá:
 }
 ```
 
-En macOS / Linux usá la ruta con `/home/tu-usuario/.config/opencode/tui-plugins/gentle-logo.tsx`.
-
-> **Tip:** Si ya tenés otros plugins en `tui.json`, solo agregá la línea del `gentle-logo.tsx` al array `plugin`.
-
 ### 3. Reiniciar OpenCode
+Cerrá la terminal o salí de OpenCode y volvé a iniciarlo.
 
-Cerralo y abrilo de nuevo. El gato debería aparecer en la pantalla de bienvenida.
+---
 
-## Personalización (Opcional)
+## Personalización y Logos Dinámicos (Opcional)
 
-Si querés usar tu propio diseño o arte ASCII en lugar del gato por defecto, podés hacerlo fácilmente sin necesidad de tocar el código del plugin. Cualquier desarrollador o asistente de IA puede leer esta guía para replicar el proceso.
+Este plugin es **interactivo y responsivo al nombre de tu archivo**. Podés cambiar el logo de bienvenida por cualquier diseño ASCII personalizado sin tocar una sola línea de código del plugin.
 
 ### ¿Cómo crear tu propio arte ASCII?
 Si no sabés cómo diseñar arte ASCII, podés usar herramientas en línea gratuitas que convierten texto o imágenes directamente:
-- **Para convertir imágenes a ASCII:** Subí tu imagen de referencia a [ASCII Art Generator](https://www.ascii-art-generator.org/) o [ASCII Generator (Site)](https://ascii-generator.site/).
+- **Para convertir imágenes a ASCII:** Subí tu imagen de referencia a [ASCII Art Generator](https://www.ascii-art-generator.org/) o [ASCII Generator](https://ascii-generator.site/).
 - **Para convertir texto en fuentes de bloques gigantes:** Usá [Patorjk's TAAG](https://patorjk.com/software/taag/) para generar palabras o frases estilizadas.
 
-### Paso a paso para instalar tu logo personalizado:
-
-1. **Generá el diseño:** Creá tu arte ASCII usando alguna de las herramientas mencionadas arriba.
-2. **Creá el archivo de texto:** Creá un archivo de texto plano llamado exactamente `logo.txt` y pegá tu arte ASCII dentro de él.
-3. **Guardá el archivo:** Copiá el archivo `logo.txt` a la carpeta de plugins de OpenCode (donde instalaste `gentle-logo.tsx`):
-   - **En Windows (PowerShell):**
-     ```powershell
-     Copy-Item -Path ".\logo.txt" -Destination "$env:USERPROFILE\.config\opencode\tui-plugins\logo.txt" -Force
-     ```
-     *(La carpeta de plugins se ubica en `%USERPROFILE%\.config\opencode\tui-plugins\`)*
-   - **En macOS / Linux (Terminal):**
-     ```bash
-     cp logo.txt ~/.config/opencode/tui-plugins/logo.txt
-     ```
-     *(La carpeta de plugins se ubica en `~/.config/opencode/tui-plugins/`)*
-
-4. **Reiniciá OpenCode:** Cerrá la terminal o salí de OpenCode y volvé a iniciarlo. El plugin detectará automáticamente la presencia de `logo.txt` y renderizará tu diseño personalizado en verde Matrix.
+### ¿Cómo instalar tu diseño personalizado?
+1. Guardá tu arte ASCII en un archivo con extensión `.txt` (por ejemplo: `mi-logo.txt`, `gato-matrix.txt` o `logo-empresa.txt`).
+2. Copiá ese archivo a la carpeta de plugins (`~/.config/opencode/tui-plugins/`) junto al plugin `gentle-logo.tsx`.
+3. El plugin escaneará automáticamente la carpeta, detectará tu archivo de texto y hará lo siguiente:
+   - **Renderizado:** Dibujará tu arte ASCII en verde Matrix.
+   - **Título Compacto (Receptor Dinámico):** Si la ventana de la terminal está en tamaño estándar (chica), el plugin mostrará la versión compacta basada en el nombre del archivo. Por ejemplo, si tu archivo se llama `gato-matrix.txt`, la versión compacta mostrará exactamente `✦ gato-matrix ✦`.
 
 > [!NOTE]
-> **Fallback Automático:** Si en algún momento querés volver al gato Matrix original, simplemente borrá o renombrá el archivo `logo.txt` de la carpeta de plugins. El plugin está diseñado para detectar que no está el archivo y volver a cargar el gato por defecto sin fallar.
+> **Fallback automático:** Si no colocás ningún archivo `.txt` en la carpeta, el plugin cargará por defecto el gato verde Matrix de bienvenida y la versión compacta mostrará `✦ Logo Bienvenida ✦`. Si retirás tu archivo personalizado, el fallback se activa solo sin fallar.
 
-## Verificación
+---
 
-Si el gato no aparece, puede ser que:
+## Comportamiento del Logo en la Terminal (Responsivo)
 
-1. **La terminal es muy chica** — necesitás al menos 70×36 caracteres
-2. **La ruta en `tui.json` es incorrecta** — verificá que apunte al archivo exacto
-3. **OpenCode no encontró el plugin** — revisá los logs con `opencode --log-level=DEBUG`
+El plugin se redibuja en tiempo real adaptándose al tamaño de la terminal:
+1. **Ventana Estándar / Chica (ej. al abrir por primera vez):** Muestra únicamente el texto compacto `✦ [nombre_de_tu_archivo] ✦`.
+2. **Ventana Maximizada:** Cuando maximizás la terminal o la estirás a un tamaño suficiente, el plugin detecta el espacio y dibuja automáticamente el arte ASCII en verde Matrix completo.
 
-## Estructura
+---
+
+## Estructura del Proyecto
 
 ```
 logo_bienvenida_OPENCODE/
-├── gentle-logo.tsx        # Plugin TUI de OpenCode
-└── README.md              # Esta guía
+├── gentle-logo.tsx        # Código fuente del plugin TUI
+├── instalar.ps1           # Instalador automático para Windows
+├── instalar.sh            # Instalador automático para macOS/Linux
+└── README.md              # Esta guía detallada
 ```
+
+---
 
 ## Créditos
 
-Hecho con ♥ para la bienvenida de OpenCode. Verde Matrix porque el gato merece estilo.
+Hecho con ♥ para la bienvenida de OpenCode. Verde Matrix porque tu consola merece estilo.
