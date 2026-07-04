@@ -10,6 +10,7 @@ Write-Host ""
 Write-Host "[INFO] Comportamiento del logo en pantalla:" -ForegroundColor Yellow
 Write-Host "  - Si iniciás OpenCode en una ventana de terminal estándar (chica), vas a ver la versión compacta adaptada al nombre de tu archivo: '✦ [nombre_de_tu_archivo] ✦'."
 Write-Host "  - Para ver el arte ASCII completo (tu diseño personalizado), simplemente MAXIMIZÁ o agrandá la ventana de tu terminal. El logo se adaptará solo al instante."
+Write-Host "  - Si no tenés un archivo .txt en el formato de arte ASCII correcto, podés usar aplicaciones en línea como 'ASCII Art Generator' (para imágenes) o 'Patorjk's TAAG' (para textos) para generarlo fácilmente." -ForegroundColor Cyan
 Write-Host ""
 Write-Host "¿Qué va a hacer este instalador?"
 Write-Host "  1. Creará la carpeta de plugins en tu perfil de usuario si no existe."
@@ -37,7 +38,6 @@ if (-not (Test-Path $pluginDir)) {
 $pluginDest = Join-Path $pluginDir "gentle-logo.tsx"
 Copy-Item -Path ".\gentle-logo.tsx" -Destination $pluginDest -Force
 Write-Host "[✓] Plugin 'gentle-logo.tsx' copiado con éxito." -ForegroundColor Green
-
 # 3. Copy custom .txt logo if requested
 $hasLogo = Read-Host "¿Tenés un archivo de texto .txt con tu diseño ASCII en esta carpeta? (S/N)"
 if ($hasLogo -match '^[sS]$') {
@@ -55,6 +55,9 @@ if ($hasLogo -match '^[sS]$') {
     } else {
         Write-Host "  [ERROR] El archivo '$logoName' no existe en esta carpeta. Se omitirá la copia del logo personalizado." -ForegroundColor Red
     }
+} else {
+    Write-Host "  [INFO] No hay problema. Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
+    Write-Host "  [INFO] Si más adelante querés usar tu propio diseño, podés generarlo en formato ASCII (.txt) con webs como 'ASCII Art Generator' o 'Patorjk's TAAG' y copiarlo a la carpeta de plugins." -ForegroundColor Cyan
 }
 
 # 4. Configure tui.json
