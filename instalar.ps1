@@ -34,7 +34,7 @@ $hasLogo = Read-Host "¿Tenés tu logo en arte ASCII listo en un archivo .txt? (
 $customLogoPath = $null
 
 if ($hasLogo -match '^[sS]$') {
-    $logoInput = Read-Host "  Ingresá la ruta completa de tu archivo .txt"
+    $logoInput = (Read-Host "  Ingresá la ruta completa de tu archivo .txt").Trim('"')
     if (Test-Path $logoInput) {
         $customLogoPath = $logoInput
         Write-Host "  [✓] Archivo encontrado: '$customLogoPath'" -ForegroundColor Green

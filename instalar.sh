@@ -42,6 +42,8 @@ customLogoPath=""
 
 if [[ "$hasLogo" =~ ^[sS]$ ]]; then
     read -p "  Ingresá la ruta completa de tu archivo .txt: " logoInput
+    logoInput="${logoInput%\"}"
+    logoInput="${logoInput#\"}"
     if [ -f "$logoInput" ]; then
         customLogoPath="$logoInput"
         echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
