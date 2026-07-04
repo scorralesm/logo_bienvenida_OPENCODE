@@ -3,6 +3,8 @@
 import type { TuiPlugin } from "@opencode-ai/plugin/tui"
 import { useTerminalDimensions } from "@opentui/solid"
 import { createMemo } from "solid-js"
+import fs from "fs"
+import path from "path"
 
 const id = "gentle-logo"
 
@@ -41,11 +43,47 @@ const catArt = [
 
 const compactArt = ["✦ Catppuccin ✦"]
 
+// Load custom ASCII art from external file if it exists
+let customArt: string[] | null = null
+try {
+  let logoPath = ""
+  const home = process.env.USERPROFILE || process.env.HOME || ""
+  const globalConfigLogo = path.join(home, ".config", "opencode", "tui-plugins", "logo.txt")
+
+  if (fs.existsSync(globalConfigLogo)) {
+    logoPath = globalConfigLogo
+  } else {
+    try {
+      const localLogo = path.join(__dirname, "logo.txt")
+      if (fs.existsSync(localLogo)) {
+        logoPath = localLogo
+      }
+    } catch (err) {
+      try {
+        const { fileURLToPath } = require("url")
+        const metaUrl = eval("import.meta.url")
+        const localLogo = path.join(path.dirname(fileURLToPath(metaUrl)), "logo.txt")
+        if (fs.existsSync(localLogo)) {
+          logoPath = localLogo
+        }
+      } catch (e) {}
+    }
+  }
+
+  if (logoPath && fs.existsSync(logoPath)) {
+    const content = fs.readFileSync(logoPath, "utf8")
+    customArt = content.split(/\r?\n/)
+  }
+} catch (e) {
+  // Fallback to default
+}
+
 const Logo = () => {
   const dim = useTerminalDimensions()
   const lines = createMemo(() => {
     const term = dim()
-    return term.height >= catArt.length + 6 && term.width >= 64 ? catArt : compactArt
+    const art = customArt || catArt
+    return term.height >= art.length + 6 && term.width >= 64 ? art : compactArt
   })
 
   return (
