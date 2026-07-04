@@ -32,6 +32,28 @@ if [[ ! "$confirm" =~ ^[sS]$ ]]; then
     exit 0
 fi
 
+# 0. Preguntar por logo personalizado ANTES de empezar la instalación
+echo ""
+echo -e "${YELLOW}===== LOGO PERSONALIZADO =====${NC}"
+read -p "¿Tenés tu logo en arte ASCII listo en un archivo .txt? (S/N): " hasLogo
+customLogoPath=""
+
+if [[ "$hasLogo" =~ ^[sS]$ ]]; then
+    read -p "  Ingresá la ruta completa de tu archivo .txt: " logoInput
+    if [ -f "$logoInput" ]; then
+        customLogoPath="$logoInput"
+        echo -e "${GREEN}  [✓] Archivo encontrado: '$customLogoPath'${NC}"
+    else
+        echo -e "${RED}  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación.${NC}"
+        exit 1
+    fi
+else
+    echo -e "${CYAN}  [INFO] Se usará el gato verde Matrix por defecto.${NC}"
+fi
+
+echo ""
+echo -e "${YELLOW}===== INICIANDO INSTALACIÓN =====${NC}"
+
 # 1. Verify/create directory
 PLUGIN_DIR="$HOME/.config/opencode/tui-plugins"
 if [ ! -d "$PLUGIN_DIR" ]; then
@@ -61,26 +83,15 @@ else
     echo -e "${GREEN}[✓] Plugin 'gentle-logo.tsx' descargado e instalado con éxito.${NC}"
 fi
 
-# 3. Copy custom .txt logo if requested
-read -p "¿Tenés un archivo de texto .txt con tu diseño ASCII listo para usar? (S/N): " hasLogo
-if [[ "$hasLogo" =~ ^[sS]$ ]]; then
-    read -p "  Ingrese la ruta o nombre exacto de su archivo (ej: mi-gato.txt): " logoName
-    if [ -f "$logoName" ]; then
-        # Clean any other .txt files in destination folder to prevent conflicts
-        rm -f "$PLUGIN_DIR"/*.txt
-        
-        logoBasename=$(basename -- "$logoName")
-        cp "$logoName" "$PLUGIN_DIR/$logoBasename"
-        echo -e "${GREEN}  [✓] '$logoBasename' copiado correctamente.${NC}"
-        
-        cleanName="${logoBasename%.*}"
-        echo -e "${CYAN}  [INFO] La versión compacta de tu logo mostrará dinámicamente: '✦ $cleanName ✦'.${NC}"
-    else
-        echo -e "${RED}  [ERROR] El archivo '$logoName' no existe. Se omitirá la copia del logo personalizado.${NC}"
-    fi
+# 3. Copy custom .txt logo (solo si el usuario tenía uno listo)
+if [ -n "$customLogoPath" ]; then
+    logoBasename=$(basename -- "$customLogoPath")
+    cp "$customLogoPath" "$PLUGIN_DIR/$logoBasename"
+    echo -e "${GREEN}  [✓] Logo personalizado copiado: '$customLogoPath'${NC}"
+    cleanName="${logoBasename%.*}"
+    echo -e "${CYAN}  [INFO] Versión compacta mostrará: '✦ $cleanName ✦'${NC}"
 else
-    echo -e "${CYAN}  [INFO] No hay problema. Se usará el gato verde Matrix por defecto.${NC}"
-    echo -e "${CYAN}  [INFO] Si más adelante querés usar tu propio diseño, podés generarlo en formato ASCII (.txt) con webs como 'ASCII Art Generator' o 'Patorjk's TAAG' y copiarlo a la carpeta de plugins.${NC}"
+    echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto (no se copia ningún .txt adicional).${NC}"
 fi
 
 # 4. Configure tui.json

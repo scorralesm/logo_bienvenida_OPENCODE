@@ -25,6 +25,28 @@ if ($confirm -notmatch '^[sS]$') {
     Exit
 }
 
+# 0. Preguntar por logo personalizado ANTES de empezar la instalación
+Write-Host ""
+Write-Host "===== LOGO PERSONALIZADO =====" -ForegroundColor Yellow
+$hasLogo = Read-Host "¿Tenés tu logo en arte ASCII listo en un archivo .txt? (S/N)"
+$customLogoPath = $null
+
+if ($hasLogo -match '^[sS]$') {
+    $logoInput = Read-Host "  Ingresá la ruta completa de tu archivo .txt"
+    if (Test-Path $logoInput) {
+        $customLogoPath = $logoInput
+        Write-Host "  [✓] Archivo encontrado: '$customLogoPath'" -ForegroundColor Green
+    } else {
+        Write-Host "  [ERROR] El archivo '$logoInput' no existe. Cancelando instalación." -ForegroundColor Red
+        Exit
+    }
+} else {
+    Write-Host "  [INFO] Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
+}
+
+Write-Host ""
+Write-Host "===== INICIANDO INSTALACIÓN =====" -ForegroundColor Yellow
+
 # 1. Verify/create directory
 $pluginDir = Join-Path $env:USERPROFILE ".config\opencode\tui-plugins"
 if (-not (Test-Path $pluginDir)) {
@@ -52,26 +74,15 @@ if (Test-Path ".\gentle-logo.tsx") {
     }
 }
 
-# 3. Copy custom .txt logo if requested
-$hasLogo = Read-Host "¿Tenés un archivo de texto .txt con tu diseño ASCII listo para usar? (S/N)"
-if ($hasLogo -match '^[sS]$') {
-    $logoName = Read-Host "  Ingrese la ruta o nombre exacto de su archivo (ej: mi-gato.txt)"
-    if (Test-Path $logoName) {
-        $logoDest = Join-Path $pluginDir (Split-Path $logoName -Leaf)
-        
-        # Clean any other .txt files in the destination folder to prevent conflicts
-        Get-ChildItem -Path $pluginDir -Filter *.txt | Remove-Item -Force
-        
-        Copy-Item -Path $logoName -Destination $logoDest -Force
-        Write-Host "  [✓] '$logoName' copiado correctamente." -ForegroundColor Green
-        $cleanName = [System.IO.Path]::GetFileNameWithoutExtension($logoName)
-        Write-Host "  [INFO] La versión compacta de tu logo mostrará dinámicamente: '✦ $cleanName ✦'." -ForegroundColor Cyan
-    } else {
-        Write-Host "  [ERROR] El archivo '$logoName' no existe. Se omitirá la copia del logo personalizado." -ForegroundColor Red
-    }
+# 3. Copy custom .txt logo (solo si el usuario tenía uno listo)
+if ($customLogoPath) {
+    $logoDest = Join-Path $pluginDir (Split-Path $customLogoPath -Leaf)
+    Copy-Item -Path $customLogoPath -Destination $logoDest -Force
+    Write-Host "  [✓] Logo personalizado copiado: '$customLogoPath'" -ForegroundColor Green
+    $cleanName = [System.IO.Path]::GetFileNameWithoutExtension($customLogoPath)
+    Write-Host "  [INFO] Versión compacta mostrará: '✦ $cleanName ✦'" -ForegroundColor Cyan
 } else {
-    Write-Host "  [INFO] No hay problema. Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
-    Write-Host "  [INFO] Si más adelante querés usar tu propio diseño, podés generarlo en formato ASCII (.txt) con webs como 'ASCII Art Generator' o 'Patorjk's TAAG' y copiarlo a la carpeta de plugins." -ForegroundColor Cyan
+    Write-Host "  [INFO] Usando gato verde Matrix por defecto (no se copia ningún .txt adicional)." -ForegroundColor Cyan
 }
 
 # 4. Configure tui.json
