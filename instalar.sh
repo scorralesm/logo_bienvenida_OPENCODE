@@ -102,7 +102,14 @@ if [ -n "$customLogoPath" ]; then
     cleanName="${logoBasename%.*}"
     echo -e "${CYAN}  [INFO] Versión compacta mostrará: '✦ $cleanName ✦'${NC}"
 else
-    echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto (no se copia ningún .txt adicional).${NC}"
+    # Eliminar .txt existentes para que el plugin use el gato por defecto
+    existingTxt=$(ls "$PLUGIN_DIR"/*.txt 2>/dev/null | head -1)
+    if [ -n "$existingTxt" ]; then
+        rm -f "$PLUGIN_DIR"/*.txt
+        echo -e "${CYAN}  [INFO] Logo personalizado anterior eliminado. Se usará el gato verde Matrix por defecto.${NC}"
+    else
+        echo -e "${CYAN}  [INFO] Usando gato verde Matrix por defecto.${NC}"
+    fi
 fi
 
 # 4. Configure tui.json

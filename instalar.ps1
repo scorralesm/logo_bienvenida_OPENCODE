@@ -88,7 +88,14 @@ if ($customLogoPath) {
     $cleanName = [System.IO.Path]::GetFileNameWithoutExtension($customLogoPath)
     Write-Host "  [INFO] Versión compacta mostrará: '✦ $cleanName ✦'" -ForegroundColor Cyan
 } else {
-    Write-Host "  [INFO] Usando gato verde Matrix por defecto (no se copia ningún .txt adicional)." -ForegroundColor Cyan
+    # Eliminar .txt existentes para que el plugin use el gato por defecto
+    $existingTxt = Get-ChildItem -Path $pluginDir -Filter *.txt -ErrorAction SilentlyContinue
+    if ($existingTxt) {
+        $existingTxt | Remove-Item -Force
+        Write-Host "  [INFO] Logo personalizado anterior eliminado. Se usará el gato verde Matrix por defecto." -ForegroundColor Cyan
+    } else {
+        Write-Host "  [INFO] Usando gato verde Matrix por defecto." -ForegroundColor Cyan
+    }
 }
 
 # 4. Configure tui.json
