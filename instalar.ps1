@@ -1,4 +1,4 @@
-# Windows installer for logo_bienvenida_OPENCODE
+﻿# Windows installer for logo_bienvenida_OPENCODE
 Clear-Host
 
 Write-Host "============================================================" -ForegroundColor Green
