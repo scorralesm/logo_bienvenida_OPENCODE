@@ -1,4 +1,4 @@
-﻿# Windows installer for logo_bienvenida_OPENCODE
+# Windows installer for logo_bienvenida_OPENCODE
 Clear-Host
 
 Write-Host "============================================================" -ForegroundColor Green
@@ -10,7 +10,7 @@ Write-Host ""
 Write-Host "[INFO] Comportamiento del logo en pantalla:" -ForegroundColor Yellow
 Write-Host "  - Si iniciás OpenCode en una ventana de terminal estándar (chica), vas a ver la versión compacta adaptada al nombre de tu archivo: '✦ [nombre_de_tu_archivo] ✦'."
 Write-Host "  - Para ver el arte ASCII completo (tu diseño personalizado), simplemente MAXIMIZÁ o agrandá la ventana de tu terminal. El logo se adaptará solo al instante."
-Write-Host "  - Si no tenés un archivo .txt en el formato de arte ASCII correcto, podés usar aplicaciones en línea como 'ASCII Art Generator' (para imágenes) o 'Patorjk's TAAG' (para textos) para generarlo fácilmente." -ForegroundColor Cyan
+Write-Host "  - Si no tenés un archivo .txt en el formato de arte ASCII correcto, te recomendamos usar 'Image to ASCII' (https://www.asciiart.eu/image-to-ascii) para convertir imágenes, o 'Patorjk's TAAG' para texto estilizado." -ForegroundColor Cyan
 Write-Host ""
 Write-Host "¿Qué va a hacer este instalador?"
 Write-Host "  1. Creará la carpeta de plugins en tu perfil de usuario si no existe."
@@ -104,17 +104,23 @@ Write-Host "===== SELECCIÓN DE COLOR =====" -ForegroundColor Yellow
 Write-Host "Elegí el color para tu logo (tanto el gato default como tu arte personalizado):"
 Write-Host ""
 Write-Host "  1) Verde Matrix   (#00FF00) — por defecto" -ForegroundColor Green
-Write-Host "  2) Amarillo        (#FFFF00)" -ForegroundColor Yellow
-Write-Host "  3) Magenta         (#FF00FF)" -ForegroundColor Magenta
-Write-Host "  4) Rojo            (#FF0000)" -ForegroundColor Red
+Write-Host "  2) Amarillo       (#FFFF00)" -ForegroundColor Yellow
+Write-Host "  3) Magenta        (#FF00FF)" -ForegroundColor Magenta
+Write-Host "  4) Rojo           (#FF0000)" -ForegroundColor Red
+Write-Host "  5) Blanco         (#FFFFFF)" -ForegroundColor White
+Write-Host "  6) Cyan           (#00FFFF)" -ForegroundColor Cyan
+Write-Host "  7) Rosa neón      (#FF6EC7)" -ForegroundColor Magenta
 Write-Host ""
-$colorChoice = Read-Host "Elegí un color (1-4) [default: 1]"
+$colorChoice = Read-Host "Elegí un color (1-7) [default: 1]"
 
 $selectedColor = "green"
 switch ($colorChoice) {
   "2" { $selectedColor = "yellow" }
   "3" { $selectedColor = "magenta" }
   "4" { $selectedColor = "red" }
+  "5" { $selectedColor = "white" }
+  "6" { $selectedColor = "cyan" }
+  "7" { $selectedColor = "pink" }
   default { $selectedColor = "green" }
 }
 

@@ -1,6 +1,6 @@
 # logo_bienvenida_OPENCODE
 
-Gato en ASCII art para la pantalla de bienvenida de **OpenCode**, con selección de color. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art renderizado en el color que elijas (verde, amarillo, magenta o rojo), o por cualquier logo personalizado en texto plano que desees colocar.
+Gato en ASCII art para la pantalla de bienvenida de **OpenCode**, con selección de color. Reemplaza el logo default de Catppuccin por un gato hecho en ASCII art renderizado en el color que elijas (verde, amarillo, magenta, rojo, blanco, cyan o rosa neón), o por cualquier logo personalizado en texto plano que desees colocar.
 
 Cualquier desarrollador, usuario o asistente de IA puede leer esta guía para entender el funcionamiento e instalarlo en minutos.
 
@@ -88,14 +88,17 @@ Cerrá la terminal o salí de OpenCode y volvé a iniciarlo.
 
 ### 🎨 Selección de Color
 
-El instalador te permite elegir entre **4 colores** para tu logo, ya sea que uses el gato por defecto o tu propio arte personalizado:
+El instalador te permite elegir entre **7 colores** para tu logo, ya sea que uses el gato por defecto o tu propio arte personalizado:
 
-| # | Color   | Hex       | Preview |
-|---|---------|-----------|---------|
-| 1 | Verde   | `#00FF00` | 🟢 Matrix (por defecto) |
-| 2 | Amarillo| `#FFFF00` | 🟡 |
-| 3 | Magenta | `#FF00FF` | 🟣 |
-| 4 | Rojo    | `#FF0000` | 🔴 |
+| # | Color     | Hex       | Preview |
+|---|-----------|-----------|---------|
+| 1 | Verde     | `#00FF00` | 🟢 Matrix (por defecto) |
+| 2 | Amarillo  | `#FFFF00` | 🟡 |
+| 3 | Magenta   | `#FF00FF` | 🟣 |
+| 4 | Rojo      | `#FF0000` | 🔴 |
+| 5 | Blanco    | `#FFFFFF` | ⚪ |
+| 6 | Cyan      | `#00FFFF` | 🔵 |
+| 7 | Rosa neón | `#FF6EC7` | 🌸 |
 
 El color elegido se guarda en `gentle-logo-color.json` dentro de la carpeta de plugins y el plugin lo aplica automáticamente.
 
@@ -136,11 +139,14 @@ Si respondés **N:**
 Luego de definir el logo, el instalador te preguntará:
 
 ```
-Elegí un color (1-4) [default: 1]:
+Elegí un color (1-7) [default: 1]:
 1) Verde Matrix   (#00FF00)
 2) Amarillo       (#FFFF00)
 3) Magenta        (#FF00FF)
 4) Rojo           (#FF0000)
+5) Blanco         (#FFFFFF)
+6) Cyan           (#00FFFF)
+7) Rosa neón      (#FF6EC7)
 ```
 
 El color se aplica tanto al gato por defecto como a tu arte personalizado.
@@ -175,4 +181,4 @@ logo_bienvenida_OPENCODE/
 
 ## Créditos
 
-Hecho con ♥ para la bienvenida de OpenCode. Elegí tu color — verde, amarillo, magenta o rojo — porque tu consola merece estilo propio.
+Hecho con ♥ para la bienvenida de OpenCode. Elegí tu color — verde, amarillo, magenta, rojo, blanco, cyan o rosa neón — porque tu consola merece estilo propio.

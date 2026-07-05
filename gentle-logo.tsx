@@ -14,6 +14,9 @@ const colorPalette: Record<string, string> = {
   yellow:  "#FFFF00",
   magenta: "#FF00FF",
   red:     "#FF0000",
+  white:   "#FFFFFF",
+  cyan:    "#00FFFF",
+  pink:    "#FF6EC7",
 }
 
 // Color activo (default green, se sobreescribe desde gentle-logo-color.json)

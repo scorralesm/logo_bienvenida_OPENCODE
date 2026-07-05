@@ -6,6 +6,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 RED='\033[0;31m'
+WHITE='\033[1;37m'
+PINK='\033[38;2;255;110;199m'
 NC='\033[0m' # No Color
 
 echo -e "${GREEN}============================================================${NC}"
@@ -17,7 +19,7 @@ echo ""
 echo -e "${YELLOW}[INFO] Comportamiento del logo en pantalla:${NC}"
 echo "  - Si iniciás OpenCode en una ventana de terminal estándar (chica), vas a ver la versión compacta adaptada al nombre de tu archivo: '✦ [nombre_de_tu_archivo] ✦'."
 echo "  - Para ver el arte ASCII completo (tu diseño personalizado), simplemente MAXIMIZÁ o agrandá la ventana de tu terminal. El logo se adaptará solo al instante."
-echo -e "  - ${CYAN}Si no tenés un archivo .txt en el formato de arte ASCII correcto, podés usar aplicaciones en línea como 'ASCII Art Generator' (para imágenes) o 'Patorjk's TAAG' (para textos) para generarlo fácilmente.${NC}"
+echo -e "  - ${CYAN}Si no tenés un archivo .txt en el formato de arte ASCII correcto, te recomendamos usar 'Image to ASCII' (https://www.asciiart.eu/image-to-ascii) para convertir imágenes, o 'Patorjk's TAAG' para texto estilizado.${NC}"
 echo ""
 echo "¿Qué va a hacer este instalador?"
 echo "  1. Creará la carpeta de plugins en tu perfil de usuario si no existe."
@@ -132,14 +134,20 @@ echo -e "  1) ${GREEN}Verde Matrix   (#00FF00)${NC} — por defecto"
 echo -e "  2) ${YELLOW}Amarillo        (#FFFF00)${NC}"
 echo -e "  3) Magenta         (#FF00FF)"
 echo -e "  4) ${RED}Rojo            (#FF0000)${NC}"
+echo -e "  5) ${WHITE}Blanco          (#FFFFFF)${NC}"
+echo -e "  6) ${CYAN}Cyan            (#00FFFF)${NC}"
+echo -e "  7) ${PINK}Rosa neón       (#FF6EC7)${NC}"
 echo ""
-read -p "Elegí un color (1-4) [default: 1]: " colorChoice
+read -p "Elegí un color (1-7) [default: 1]: " colorChoice
 
 selectedColor="green"
 case "$colorChoice" in
   2) selectedColor="yellow" ;;
   3) selectedColor="magenta" ;;
   4) selectedColor="red" ;;
+  5) selectedColor="white" ;;
+  6) selectedColor="cyan" ;;
+  7) selectedColor="pink" ;;
   *) selectedColor="green" ;;
 esac
 
