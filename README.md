@@ -35,12 +35,15 @@ curl -fsSL https://raw.githubusercontent.com/scorralesm/logo_bienvenida_OPENCODE
 
 ### Opción B: Instalación Local (Si clonaste el repositorio)
 
-#### Windows (PowerShell)
-Ejecutá el instalador desde la carpeta del proyecto:
+#### Windows (doble click — recomendado)
+Doble click en **`instalar.bat`** dentro de la carpeta del proyecto. Se abre la terminal sola y ejecuta el instalador sin complicaciones.
+
+Si preferís la terminal manual:
 ```powershell
-.\instalar.ps1
+.\instalar.bat
 ```
-*(Si encontrás un error de políticas de scripts, podés usar: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; .\instalar.ps1`)*
+
+*(El `.bat` ya incluye `ExecutionPolicy Bypass`, no necesitas configurar nada)*
 
 #### macOS / Linux (Bash)
 Dale permisos de ejecución y corré el script desde la carpeta del proyecto:
@@ -170,6 +173,7 @@ El plugin se redibuja en tiempo real adaptándose al tamaño de la terminal:
 logo_bienvenida_OPENCODE/
 ├── gentle-logo.tsx              # Código fuente del plugin TUI
 ├── gentle-logo-color.json       # Configuración de color (se genera en la instalación)
+├── instalar.bat                 # Lanzador para Windows (doble click)
 ├── instalar.ps1                 # Instalador automático para Windows
 ├── instalar.sh                  # Instalador automático para macOS/Linux
 └── README.md                    # Esta guía detallada
