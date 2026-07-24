@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-QMS: Manual del Personalizador & Branding OpenCode</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(25, 30, 45, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --funcional-accent: #00d2ff;
+      --tecnico-accent: #ff007f;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --glass-blur: blur(16px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.12) 0%, transparent 40%);
+      background-attachment: fixed;
+      line-height: 1.6;
+      padding: 3rem 5%;
+    }
+
+    header { text-align: center; margin-bottom: 4rem; }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--funcional-accent), var(--tecnico-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .column-header {
+      text-align: center;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      font-size: 1.4rem;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--card-border);
+      position: sticky;
+      top: 20px;
+      z-index: 10;
+    }
+
+    .col-funcional .column-header {
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--funcional-accent);
+      box-shadow: 0 4px 30px rgba(0, 210, 255, 0.1);
+    }
+
+    .col-tecnica .column-header {
+      background: rgba(255, 0, 127, 0.1);
+      color: var(--tecnico-accent);
+      box-shadow: 0 4px 30px rgba(255, 0, 127, 0.1);
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--card-border);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover { transform: translateY(-5px); }
+
+    .col-funcional .card:hover { box-shadow: 0 10px 40px rgba(0, 210, 255, 0.15); border-color: rgba(0, 210, 255, 0.3); }
+    .col-tecnica .card:hover { box-shadow: 0 10px 40px rgba(255, 0, 127, 0.15); border-color: rgba(255, 0, 127, 0.3); }
+
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+    .col-funcional .card::before { background: var(--funcional-accent); }
+    .col-tecnica .card::before { background: var(--tecnico-accent); }
+
+    .card h3 { font-size: 1.3rem; margin-bottom: 1rem; font-weight: 600; }
+    .col-funcional .card h3 { color: var(--funcional-accent); }
+    .col-tecnica .card h3 { color: var(--tecnico-accent); }
+
+    .card p, .card li { font-size: 0.98rem; margin-bottom: 0.8rem; }
+    .card ul, .card ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+
+    code { font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.5); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.88em; color: #cbd5e1; }
+    pre { background: rgba(0,0,0,0.6); padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.05); }
+
+    .tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .tag-blue { background: rgba(0, 210, 255, 0.15); color: var(--funcional-accent); }
+    .tag-pink { background: rgba(255, 0, 127, 0.15); color: var(--tecnico-accent); }
+
+    @media (max-width: 900px) {
+      .grid-container { grid-template-columns: 1fr; }
+      .column-header { position: relative; top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Personalizador de Branding & Logo OpenCode</h1>
+    <p class="subtitle">Manual dual interactivo para el instalador multiplataforma de componentes React SVG y logos ASCII de bienvenida.</p>
+  </header>
+
+  <div class="grid-container">
+
+    <!-- COLUMNA FUNCIONAL -->
+    <div class="col-funcional">
+      <div class="column-header">🧑‍💼 Para Humanos (A prueba de balas)</div>
+
+      <div class="card">
+        <span class="tag tag-blue">El Concepto Base</span>
+        <h3>¿Qué instala este paquete?</h3>
+        <p>Instala y configura la identidad visual institucional de OpenCode en los entornos de desarrollo (IDE) con personalización de paleta de colores (verde, cian, rosa neón, etc.) y arte ASCII de bienvenida.</p>
+      </div>
+
+      <div class="card">
+        <span class="tag tag-blue">Instalación en 1 paso</span>
+        <h3>Cómo ejecutarlo</h3>
+        <p>Hacer doble clic en <code>instalar.bat</code> (Windows) o ejecutar <code>./instalar.sh</code> (Linux/macOS).</p>
+      </div>
+
+    </div>
+
+    <!-- COLUMNA TÉCNICA -->
+    <div class="col-tecnica">
+      <div class="column-header">👨‍💻 Para Computines (Hardcore Tech)</div>
+
+      <div class="card">
+        <span class="tag tag-pink">Archivos del Kit</span>
+        <h3>React Vector & Scripts Shell</h3>
+        <ul>
+          <li><code>gentle-logo.tsx</code>: Componente vectorial React TSX para integración en interfaces web.</li>
+          <li><code>instalar.ps1 / .sh / .bat</code>: Scripts multiplataforma con auto-bypass de políticas de ejecución.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
